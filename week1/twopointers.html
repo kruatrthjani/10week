@@ -1,0 +1,23 @@
+<html>
+	<script>
+		const arr=[1,2,2,5,7,9,11,11,13];
+		const temp=arr.filter((val,index,arr)=>arr.indexOf(val)===index)
+		console.log("fiered=",temp)
+		
+		
+		const set =new Set(arr);
+		const unique=[...set];
+		console.log("other set=",unique)
+		
+		const obj={};
+		const uniqueArr=[];
+		for(let i=0;i<arr.length;i++){
+		if(!obj[arr[i]]){
+				obj[arr[i]]=true;
+				uniqueArr.push(arr[i]);
+			}
+		}
+		
+		console.log("uniqueArr=",uniqueArr);
+	</script>
+</html>
