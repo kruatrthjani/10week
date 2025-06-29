@@ -1,0 +1,51 @@
+<html>
+  <script>
+    console.log("hello");
+
+    function quicksort(start, end, arr) {
+      if (start >= end) {
+        return;
+      }
+
+      let mid = Math.floor((start + end) / 2);
+
+      // Median-of-three pivot selection
+      if (
+        (arr[start] > arr[mid] && arr[start] < arr[end]) ||
+        (arr[start] < arr[mid] && arr[start] > arr[end])
+      ) {
+        [arr[end], arr[start]] = [arr[start], arr[end]];
+      } else if (
+        (arr[mid] > arr[start] && arr[mid] < arr[end]) ||
+        (arr[mid] < arr[start] && arr[mid] > arr[end])
+      ) {
+        [arr[end], arr[mid]] = [arr[mid], arr[end]];
+      }
+
+      let pivot = end;            // Pivot index
+      let pivotValue = arr[pivot]; // Store pivot value
+      let i = start;
+      let k = start;
+
+      // Partition the array
+      while (i < end) { // exclude pivot index
+        if (arr[i] <= pivotValue) {
+          [arr[i], arr[k]] = [arr[k], arr[i]];
+          k++;
+        }
+        i++;
+      }
+
+      // Place pivot at the correct sorted position
+      [arr[k], arr[pivot]] = [arr[pivot], arr[k]];
+
+      // Recursively sort left and right subarrays
+      quicksort(start, k - 1, arr);
+      quicksort(k + 1, end, arr);
+    }
+
+    const arr = [3, 1, 8, 2, 0, 9, 6];
+    quicksort(0, arr.length - 1, arr);
+    console.log("Sorted =", arr);
+  </script>
+</html>
