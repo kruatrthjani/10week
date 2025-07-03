@@ -1,107 +1,207 @@
 <html>
-	<script>
-		class Node{
-			constructor(value){
-				this.value=value;
-				this.next=null;
-			}
-		}
-		
-		class LinkList{
-			constructor(){
-				this.head=null;
-			}
-			append(value){
-				const newNode=new Node(value); 
-				
-				if(this.head==null){
-					this.head=newNode;					
-					
-				}
-			else{
-				let current=this.head;
-					while(current.next!=null){
-							current=current.next;
-						}
-						current.next=newNode;
-												
-				}		
-				}
-				
-			insertatBegain(value){
-				const n1=new Node(value);
-				if(this.head==null){
-					this.head=n1;
-					
-				}
-				console.log("asd=",this.head);
-				let temp=this.head;
-				
-				this.head=n1;
-				n1.next=temp;
-							
-			}
-			
-			insertAtEnd(value){
-				const n1 =new Node(value);
-				if(this.head==null){
-					this.head=n1;
-				}
-				else{
-					let current=this.head;
-					while(current.next!=null){
-						current=current.next;
-					}
-					current.next=n1;
-				}
-			}
-			
-			deleteAtEnd(){
-				if(this.head==null){
-					console.log("this is empty");
-				}
-				else{
-					let current=this.head;
-					while(current.next.next!==null)
-					{
-						current=current.next;
-					}
-					current.next=null;
-				}
-					
-			}
-			
-			deleteAtBegain(){
-				if(this.head==null){
-					console.log("it is null");
-				}
-				else{
-					let current=this.head;
-					current=current.next;
-					this.head=current;
-				}
-					
-			}
-			traverse(){
-				let current=this.head;
-				
-				while(current!=null)
-					{
-						console.log("node=",current.value)
-						current=current.next					
-					}				
-					
-				}
-		}
-		
-		const List=new LinkList();
-		List.append(10);
-		List.append(20);
-		List.append(30);
-		List.insertatBegain(5);
-		List.insertAtEnd(35);
-		List.deleteAtEnd();
-		List.deleteAtBegain();
-		List.traverse();
-	</script>
+  <body>
+    <script>
+      class Node {
+        constructor(value) {
+          this.value = value;
+          this.next = null;
+        }
+      }
+
+      class LinkList {
+        constructor() {
+          this.head = null;
+        }
+
+        append(value) {
+          const newNode = new Node(value);
+          if (this.head == null) {
+            this.head = newNode;
+          } else {
+            let current = this.head;
+            while (current.next != null) {
+              current = current.next;
+            }
+            current.next = newNode;
+          }
+        }
+
+        insertatBegain(value) {
+          const n1 = new Node(value);
+          n1.next = this.head;
+          this.head = n1;
+        }
+
+        insertAtEnd(value) {
+          this.append(value);
+        }
+
+        deleteAtEnd() {
+          if (this.head == null) {
+            console.log("deleteAtEnd: List is empty");
+            return;
+          }
+          if (this.head.next == null) {
+            this.head = null;
+            return;
+          }
+          let current = this.head;
+          while (current.next.next !== null) {
+            current = current.next;
+          }
+          current.next = null;
+        }
+
+        deleteAtBegain() {
+          if (this.head == null) {
+            console.log("deleteAtBegain: List is empty");
+            return;
+          }
+          this.head = this.head.next;
+        }
+
+        insertanyWhere({ pos, val }) {
+          if (pos <= 0) {
+            console.log("insertanyWhere: Invalid position");
+            return;
+          }
+
+          if (pos === 1) {
+            this.insertatBegain(val);
+            return;
+          }
+
+          let current = this.head;
+          let i = 1;
+          while (i < pos - 1 && current != null) {
+            current = current.next;
+            i++;
+          }
+
+          if (current == null) {
+            console.log("insertanyWhere: Position out of bounds");
+            return;
+          }
+
+          const n1 = new Node(val);
+          n1.next = current.next;
+          current.next = n1;
+        }
+
+        deleteAtAnywhere({ pos }) {
+          if (pos <= 0) {
+            console.log("deleteAtAnywhere: Invalid position");
+            return;
+          }
+
+          if (this.head == null) {
+            console.log("deleteAtAnywhere: List is empty");
+            return;
+          }
+
+          if (pos === 1) {
+            this.head = this.head.next;
+            return;
+          }
+
+          let i = 1;
+          let current = this.head;
+          while (i < pos - 1 && current != null) {
+            current = current.next;
+            i++;
+          }
+
+          if (current == null || current.next == null) {
+            console.log("deleteAtAnywhere: Position out of bounds");
+            return;
+          }
+
+          current.next = current.next.next;
+        }
+
+        reverseLinkList() {
+          let prev = null;
+          let current = this.head;
+          while (current !== null) {
+            let next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+          }
+          this.head = prev;
+        }
+
+        traverse() {
+          let current = this.head;
+          let values = [];
+          while (current != null) {
+            values.push(current.value);
+            current = current.next;
+          }
+          console.log("List =", values.join(" -> ") || "Empty");
+        }
+      }
+
+      // ========== TEST CASES ==========
+      function runTests() {
+        console.log("==== CREATE EMPTY LIST ====");
+        let L = new LinkList();
+        L.traverse(); // Empty
+
+        console.log("==== APPEND VALUES ====");
+        L.append(10);
+        L.append(20);
+        L.append(30);
+        L.traverse(); // 10 -> 20 -> 30
+
+        console.log("==== INSERT AT BEGINNING ====");
+        L.insertatBegain(5);
+        L.traverse(); // 5 -> 10 -> 20 -> 30
+
+        console.log("==== INSERT AT END ====");
+        L.insertAtEnd(35);
+        L.traverse(); // 5 -> 10 -> 20 -> 30 -> 35
+
+        console.log("==== INSERT AT ANY POSITION ====");
+        L.insertanyWhere({ pos: 3, val: 15 });
+        L.insertanyWhere({ pos: 1, val: 1 });
+        L.insertanyWhere({ pos: 999, val: 100 }); // invalid
+        L.traverse(); // 1 -> 5 -> 10 -> 15 -> 20 -> 30 -> 35
+
+        console.log("==== DELETE AT BEGINNING ====");
+        L.deleteAtBegain();
+        L.traverse(); // 5 -> 10 -> 15 -> 20 -> 30 -> 35
+
+        console.log("==== DELETE AT END ====");
+        L.deleteAtEnd();
+        L.traverse(); // 5 -> 10 -> 15 -> 20 -> 30
+
+        console.log("==== DELETE AT ANYWHERE ====");
+        L.deleteAtAnywhere({ pos: 3 });
+        L.deleteAtAnywhere({ pos: 1 });
+        L.deleteAtAnywhere({ pos: 999 }); // invalid
+        L.traverse(); // 10 -> 20 -> 30
+
+        console.log("==== REVERSE LIST ====");
+        L.reverseLinkList();
+        L.traverse(); // 30 -> 20 -> 10
+
+        console.log("==== DELETE ALL ====");
+        L.deleteAtEnd();
+        L.deleteAtEnd();
+        L.deleteAtEnd();
+        L.deleteAtEnd(); // on empty
+        L.traverse(); // Empty
+
+        console.log("==== INSERT ON EMPTY LIST ====");
+        L.insertanyWhere({ pos: 1, val: 100 });
+        L.traverse(); // 100
+
+        console.log("==== FINAL STATE ====");
+        L.traverse();
+      }
+
+      runTests();
+    </script>
+  </body>
 </html>
