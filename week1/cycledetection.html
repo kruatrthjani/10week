@@ -1,0 +1,105 @@
+<html>
+<script>
+	// The circular linked list from your provided code
+class ListNode {
+    constructor(val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class CircularLinkedList {
+    constructor(values, cyclePos) {
+        this.head = null;
+        this.createList(values, cyclePos);
+    }
+
+    createList(values, cyclePos) {
+        if (!values || values.length === 0) return;
+
+        // Create the head node
+        this.head = new ListNode(values[0]);
+        let current = this.head;
+        let cycleNode = null;
+
+        // Create the linked list
+        for (let i = 1; i < values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+            if (i === cyclePos) {
+                cycleNode = current;
+            }
+        }
+
+        // Create the cycle if cyclePos is valid
+        if (cyclePos >= 0 && cycleNode) {
+            current.next = cycleNode;
+        }
+    }
+	cycledetect(closure=false){
+		let slow=this.head;
+		let fast=this.head;
+		let hasCycle=false;
+		while(fast && fast.next){
+			fast=fast.next.next;
+			slow=slow.next;
+			if(slow===fast){
+				hasCycle=true;
+				break;
+			}				
+		}
+		if(hasCycle==false){
+			{closure ==false &&console.log("not a cycle")}
+			return hasCycle;
+		}
+		{closure ==false && console.log("cycle detected at=",slow.val)}
+		return slow;
+	}
+	
+	
+	cyclestart(closure=false){
+		
+		let point = this.cycledetect(true);
+		
+	
+		let fast=point;
+		let slow=this.head;
+		 while(fast && fast.next){
+		 fast=fast.next;
+		 slow=slow.next;
+			if(fast===slow){
+				{closure ==false && console.log("Started at=",fast.val)}
+				break;
+			}
+		 }
+		 
+		 
+		 return fast; 
+	}
+	cyclelength(){
+	let start=this.cyclestart(true);
+	let length=1;
+	let fast=start.next;
+	while(fast!=start){
+		fast=fast.next;
+		length++;
+	}
+	console.log("length is:",length);
+	return length;
+}
+	
+	
+    // Getter to access the head of the list
+    getHead() {
+        return this.head;
+    }
+}
+
+
+// Example usage for testing
+let list = new CircularLinkedList([1, 2, 3, 4, 5], 2); // Creates 1 -> 2 -> 3 -> 4 -> 5 -> 3 (cycle at node with value 3)
+list.cycledetect();
+list.cyclestart();
+list.cyclelength();
+</script/>
+</html>
