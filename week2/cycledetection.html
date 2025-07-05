@@ -49,10 +49,10 @@ class CircularLinkedList {
 			}				
 		}
 		if(hasCycle==false){
-			{closure ==false &&console.log("not a cycle")}
+			if (closure ==false) console.log("not a cycle")
 			return hasCycle;
 		}
-		{closure ==false && console.log("cycle detected at=",slow.val)}
+		if(closure ==false)  console.log("cycle detected at=",slow.val)
 		return slow;
 	}
 	
