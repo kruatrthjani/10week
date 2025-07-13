@@ -1,35 +1,37 @@
 <html>
-<script>	
-/*find maximum in fixed window*/
-function fixedWindowTarget(arr,fixwindow){	
-	let left=0;
-	let right=fixwindow-1;	
-	if(fixwindow<=0 ||fixwindow>arr.length){
-		console.log("Invalid window size");
-		return -1;
-	}
-	let k=left;
-	let temp=0;
-	while(k<=right){
-		temp+=arr[k];
-		k++;
-	}
-	let max=temp;
-	
-	while(right<=arr.length-1){
-		temp-=arr[left];
-		temp+=arr[right];
-		if(temp>max){
-			max=temp;
-		}
-		left++;
-		right++;
-	}
-	console.log("Maximum sum in fixed slide window=",max)
-	return max;
-	}
-	const arr=[3, -5, 7, -2, 9, -8, 4, -1, 6, -3];
-	let fixwindow=3;
-	fixedWindowTarget(arr,fixwindow);
-</script>
+  <script>
+    /*find maximum in fixed window*/
+    function fixedWindowMaximum(arr, fixwindow) {
+      let left = 0;
+      let right = fixwindow - 1;
+      if (fixwindow <= 0 || fixwindow > arr.length) {
+        console.log("Invalid window size");
+        return -1;
+      }
+      let k = left;
+      let temp = 0;
+      while (k <= right) {
+        temp += arr[k];
+        k++;
+      }
+      let max = temp;
+
+      while (right < arr.length - 1) {
+        if (temp > max) {
+          max = temp;
+        }
+        temp -= arr[left];
+        temp += arr[right + 1];
+        left++;
+        right++;
+      }
+      console.log("Maximum sum in fixed slide window=", max);
+      return max;
+    }
+    const arr = [3, -5, 7, -2, 9, -8, 4, -1, 6, -3];
+    let fixwindow = 3;
+    fixedWindowMaximum(arr, fixwindow);
+
+    function variablewindowMaximun() {}
+  </script>
 </html>

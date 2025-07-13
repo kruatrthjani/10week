@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>quadraticprobing</title>
+    <script>
+      const arr = [90, 28, 11, 30, 80, 55, 71];
+      const size = arr.length;
+      let hash = new Array(size).fill(null);
+
+      for (let i = 0; i < arr.length; i++) {
+        const key = arr[i];
+        let index = key % size;
+
+        if (hash[index] === null) {
+          hash[index] = key;
+        } else {
+          let placed = false;
+          for (let k = 1; k < size; k++) {
+            let probeIndex = (index + k * k) % size;
+            if (hash[probeIndex] === null) {
+              hash[probeIndex] = key;
+              placed = true;
+              break;
+            }
+          }
+
+          if (!placed) {
+            console.log(`Could not insert ${key}: Hash table is full or no valid position found.`);
+          }
+        }
+
+        if (!hash.includes(null)) {
+          console.log("Hash table is now full.");
+        }
+      }
+
+      console.log("Quadratic hash =", hash);
+    </script>
+  </head>
+</html>

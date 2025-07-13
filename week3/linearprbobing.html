@@ -1,0 +1,25 @@
+<html>
+<title>Linear Probing</title>
+<script>
+	const arr = [23, 11, 5, 15, 30];
+	console.log("arr =", arr);
+
+	let hash = new Array(5).fill(null); // Fixed-size hash table
+
+	let i = 0;
+	while (i < arr.length) {
+		let val = arr[i];
+		let index = val % hash.length;
+
+		// Linear probing to find empty slot
+		while (hash[index] !== null) {
+			index = (index + 1) % hash.length;
+		}
+
+		hash[index] = val;
+		i++;
+	}
+
+	console.log("hashed =", hash);
+</script>
+</html>

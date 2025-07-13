@@ -1,0 +1,53 @@
+<html>
+<script>
+	console.log("scas");
+	const arr=[100,22,75,60,81,9,38,43,97,62,51,18,110];
+	let hash=new Array(arr.length).fill(null);
+	console.log("arrr length=",arr.length)
+	let prime;
+	let temp=arr.length-1;
+	console.log("temp=",temp);
+	let flag=true;
+	while(!prime && temp>=2){
+	flag=true;
+	for(let k=temp-1;k>=2;k--){
+	
+		if(temp%k==0){
+			
+			flag=false;
+			break;
+			}		
+		}
+		if(flag==true){
+			prime=temp;
+			break;
+		}
+		temp--;		
+	}
+	console.log("prime=",prime);
+	let i=0;
+	while(i<arr.length){		
+		let key=arr[i];
+		let pos=key%hash.length;
+		if(hash[pos]==null){
+			hash[pos]=arr[i];
+		}
+		else{
+			let pos2=prime-(key % prime);
+			if (pos2 === 0) pos2 = 1;
+			let p=1;
+			let finalpos=(pos+p*pos2)%hash.length;
+			
+			while(hash[finalpos]!==null){
+				p++;
+				finalpos=(pos+p*pos2)%hash.length;
+			}			
+			hash[finalpos]=arr[i];
+		}
+		i++;
+		
+	}
+	
+	console.log("double hashing=",hash);
+</script>
+</html>
