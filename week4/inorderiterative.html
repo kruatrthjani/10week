@@ -1,0 +1,160 @@
+<html>
+  <script>
+    console.log("In-order, Pre-order, Post-order, and Level-order Traversals");
+
+    class Node {
+      constructor(val) {
+        this.left = null;
+        this.val = val;
+        this.right = null;
+      }
+    }
+
+    class InOrderList {
+      constructor() {
+        this.head = null;
+      }
+
+      // Insertion using BFS (level order)
+      addNode(val) {
+        const n1 = new Node(val);
+        if (this.head === null) {
+          this.head = n1;
+          return;
+        }
+
+        let queue = [this.head];
+        while (queue.length > 0) {
+          let temp = queue.shift();
+
+          if (temp.left === null) {
+            temp.left = n1;
+            return;
+          } else {
+            queue.push(temp.left);
+          }
+
+          if (temp.right === null) {
+            temp.right = n1;
+            return;
+          } else {
+            queue.push(temp.right);
+          }
+        }
+      }
+
+      inorderIterative() {
+        let result = [];
+        let stack = [];
+        let current = this.head;
+
+        while (current !== null || stack.length > 0) {
+          while (current !== null) {
+            stack.push(current);
+            current = current.left;
+          }
+
+          current = stack.pop();
+          result.push(current.val);
+          current = current.right;
+        }
+
+        console.log("Inorder Traversal:", result.join(" "));
+      }
+
+      preOrderIterative() {
+        if (this.head === null) return;
+
+        let result = [];
+        let stack = [this.head];
+
+        while (stack.length > 0) {
+          let current = stack.pop();
+          result.push(current.val);
+
+          if (current.right) stack.push(current.right);
+          if (current.left) stack.push(current.left);
+        }
+
+        console.log("Preorder Traversal:", result.join(" "));
+      }
+
+      postOrderIterative() {
+        if (this.head === null) return;
+
+        let stack1 = [this.head];
+        let stack2 = [];
+        let result = [];
+
+        while (stack1.length > 0) {
+          let current = stack1.pop();
+          stack2.push(current);
+
+          if (current.left) stack1.push(current.left);
+          if (current.right) stack1.push(current.right);
+        }
+
+        while (stack2.length > 0) {
+          result.push(stack2.pop().val);
+        }
+
+        console.log("Postorder Traversal:", result.join(" "));
+      }
+
+      levelOrderTraversal() {
+        if (this.head === null) return;
+
+        let result = [];
+        let queue = [this.head];
+
+        while (queue.length > 0) {
+          let current = queue.shift();
+          result.push(current.val);
+
+          if (current.left) queue.push(current.left);
+          if (current.right) queue.push(current.right);
+        }
+
+        console.log("Level-order Traversal:", result.join(" "));
+      }
+    
+	
+	searchNode(val) {
+  if (this.head === null) return null;
+
+  let queue = [this.head];
+  while (queue.length > 0) {
+    let current = queue.shift();
+
+    if (current.val === val) {
+      console.log(`Node found: ${val}`);
+      return current;
+    }
+
+    if (current.left) queue.push(current.left);
+    if (current.right) queue.push(current.right);
+  }
+
+  console.log(`Node not found: ${val}`);
+  return null;
+}
+}
+
+	//inserton can be done in bfs and traverse can be done in dfs
+
+    // Usage
+    const tree = new InOrderList();
+    tree.addNode(1);
+    tree.addNode(2);
+    tree.addNode(3);
+    tree.addNode(4);
+    tree.addNode(5);
+
+    tree.inorderIterative();    // Output: 4 2 5 1 3
+    tree.preOrderIterative();  // Output: 1 2 4 5 3
+    tree.postOrderIterative(); // Output: 4 5 2 3 1
+    tree.levelOrderTraversal(); // Output: 1 2 3 4 5 (optional, BFS)
+	tree.searchNode(3);
+	tree.searchNode(10);
+  </script>
+</html>
