@@ -1,0 +1,116 @@
+<html>
+	<script>
+		console.log("node list=");
+		class Node{
+			constructor(val){
+				this.left=null;
+				this.right=null;
+				this.val=val;
+			}
+		}
+		class NodeList{
+			constructor(){
+				this.head=null;
+			}
+			addNode(val){
+				const n1=new Node(val);
+				if(this.head==null){
+					this.head=n1;
+				}
+				else{
+					let queue=[this.head]
+					while(queue.length>0){
+						let temp=queue.shift();
+						if(temp.left==null){
+							temp.left=n1;
+							return;
+						}
+						else{
+							queue.push(temp.left);
+						}
+						
+						if(queue.length>0){
+							if(temp.right==null){
+									temp.right=n1;
+									return;
+							}				
+							else{
+								queue.push(temp.right);
+							}
+						}
+					}
+				}
+			}
+			InOrder(){
+				let stack=[];
+				if(this.head==null){
+					console.log("no nodes are pending");
+					return;
+				}
+				else{
+					let current=this.head;
+					while(current!==null ||stack.length>0){
+						while(current!==null){
+								stack.push(current);
+								current=current.left;
+						}
+						current=stack.pop();
+						console.log("->",current.val);
+						current=current.right;
+					}
+				}
+			}
+			PostOrder(){
+				let stack1=[this.head];
+				let stack2=[];
+				while(stack1.length>0){
+					let node=stack1.pop();
+					stack2.push(node);
+					
+					if(node.left) stack1.push(node.left);
+					if(node.right) stack1.push(node.right);					
+				}
+				while(stack2.length>0){
+					let node=stack2.pop();
+					console.log("-->",node.val);
+				}
+			}
+			
+			PreOrder() {
+			if (this.head === null) {
+				console.log("no nodes are pending");
+			return;
+			}
+
+			let stack = [this.head];
+
+			while (stack.length > 0) {
+				let current = stack.pop();
+				console.log("->", current.val);
+
+		// Push right first so left is processed first
+				if (current.right) stack.push(current.right);
+				if (current.left) stack.push(current.left);
+			}
+		}
+
+				
+		}
+		
+
+		const ab=new NodeList();
+		ab.addNode(10);
+		ab.addNode(20);
+		ab.addNode(30);
+		ab.addNode(40);
+		ab.addNode(50);
+		ab.addNode(60);
+		ab.addNode(70);
+		console.dir(ab.head, { depth: null }); 
+		ab.InOrder();
+		console.log("------post order-------");
+		ab.PostOrder();
+		console.log("------pre order-------");
+		ab.PreOrder();
+	</script>
+</html>

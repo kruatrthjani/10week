@@ -1,0 +1,42 @@
+<html>
+	<script>
+		console.log("stack");
+		
+		
+		class Stack{
+			constructor(){
+				this.stack=[];
+			}
+			push(val){
+				this.stack.push(val);
+				this.view();
+				return;
+			}
+			pop(){
+				if(this.stack.length<1){
+					console.log("underflow");
+					return;
+				}
+				this.stack.pop();
+				this.view();
+				return;
+			}
+			peek(){
+				const temp=this.stack.length;
+				console.log("last=",this.stack[temp-1]);
+				return;
+			}
+			view(){
+				console.log("stack=",this.stack);
+				return;
+			}
+		}
+		const c1=new Stack();
+		c1.pop();
+		c1.push(10);
+		c1.push(20);
+		c1.push(30);
+		c1.pop();
+		c1.peek();
+	</script>
+</html>
