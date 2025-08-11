@@ -1,0 +1,91 @@
+<html>
+	<script>	
+	const heap = [];
+
+	function insert(val) {
+		heap.push(val); // Step 1: Add to the end
+		let i = heap.length - 1;
+
+		// Step 2: Bubble up
+		while (i > 0) {
+			let parentIndex = Math.floor((i - 1) / 2);
+			if (heap[parentIndex] > heap[i]) {
+				// Swap if parent is greater
+				[heap[parentIndex], heap[i]] = [heap[i], heap[parentIndex]];
+				i = parentIndex;
+			} else {
+				break;
+			}
+		}
+	}
+	
+	function deleteNode() {
+    let n = heap.length;
+    if (n === 0) {
+        console.log("Heap is empty");
+        return;
+    }
+
+    // Step 1: Replace root with last
+    heap[0] = heap[n - 1];
+    heap.pop(); // remove last
+
+    let i = 0;
+
+    // Step 2: Heapify down
+    while (true) {
+        let left = 2 * i + 1;
+        let right = 2 * i + 2;
+        let smallest = i;
+
+        if (left < heap.length && heap[left] < heap[smallest]) {
+            smallest = left;
+        }
+
+        if (right < heap.length && heap[right] < heap[smallest]) {
+            smallest = right;
+        }
+
+        if (smallest === i) {
+            break; // heap property restored
+        }
+
+        [heap[i], heap[smallest]] = [heap[smallest], heap[i]];
+        i = smallest;
+    }
+}
+
+	function topKLargest(k) {
+    const temp = [];
+
+    for (let val of heap) {
+        if (temp.length < k) {
+            temp.push(val);
+            temp.sort((a, b) => a - b); // simulate min-heap
+        } else if (val > heap[0]) {
+            temp[0] = val;
+            temp.sort((a, b) => a - b);
+        }
+    }
+	
+    return temp;
+}
+
+	function view() {
+		console.log("Heap:", heap);
+	}
+	insert(6)
+	insert(1)
+	insert(2)
+	insert(4)
+	insert(3)
+	insert(5)
+	insert(7)
+	view()
+	deleteNode();
+	view()
+	console.log("top=",topKLargest(3));
+</script>
+
+	
+</html>

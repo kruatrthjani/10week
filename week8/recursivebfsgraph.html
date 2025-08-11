@@ -1,0 +1,44 @@
+<html>
+	<script>
+	function graphTraversal(graph) {
+  const visited = new Set();
+  const result = [];
+
+  const keys = Object.keys(graph);
+  if (keys.length === 0) return [];
+
+  function bfs(queue) {
+    if (queue.length === 0) return;
+
+    const current = queue.shift();
+    result.push(current);
+
+    for (const neighbor of graph[current]) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);
+      }
+    }
+
+    bfs(queue); // ← true recursion
+  }
+
+  const start = keys[0];
+  visited.add(start);
+  bfs([start]); // seed with starting node
+
+  console.log("BFS result:", result);
+}
+
+		const obj={
+				A:['B','C','D'],
+				B:['A','D'],
+				C:['A','B'],
+				D:['A','B','E'],
+				E:['D'],				
+				}
+		graphTraversal(obj)
+		
+	</script>
+	
+</html>

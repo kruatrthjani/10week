@@ -1,0 +1,96 @@
+<html>
+	<script>
+		class Node{
+			constructor(val){
+				this.left=null;
+				this.val=val;
+				this.right=null;
+			}
+		}
+		class NodeList{
+			constructor(){
+				this.head=null;
+			}
+			addNode(val){
+				const n1=new Node(val)
+				if(this.head==null){
+					this.head=n1;
+					console.log("inserted=",n1.val);
+					return;
+				}
+				else{
+					let queue=[this.head];
+					while(queue.length>0){
+						let temp=queue.shift();
+						if(temp.left==null){
+							temp.left=n1;
+							console.log("inserted=",n1.val);
+							return
+						}
+						else{
+							queue.push(temp.left);
+						}
+						
+						if(temp.right==null){
+							temp.right=n1;
+							console.log("inserted=",n1.val);
+							return
+						}
+						else{
+							queue.push(temp.right);
+						}
+					}					
+				}
+			}
+			InOrder(){
+				const result=[];
+				function traverse(node){				
+						if(node==null){
+							return ;
+						}						
+						traverse(node.left);
+						result.push(node.val);
+						traverse(node.right);
+					}		
+					traverse(this.head)
+					console.log("inorder=",result)
+				}
+				
+				preOrder(){
+					const result=[];
+					function traverse(node){
+						if(node==null) return  ;						
+						result.push(node.val);
+						traverse(node.left)
+						traverse(node.right)
+					}					
+						traverse(this.head);
+						console.log("preorder =", result);
+				}
+
+				postOrder(){
+					const result=[];
+					function traverse(node){
+						if(node==null) return  ;												
+						traverse(node.left)
+						traverse(node.right)
+						result.push(node.val);
+					}					
+						traverse(this.head);
+						console.log("postorder =", result);
+				}
+				
+			}
+		const list=new NodeList();
+		list.addNode(10);
+		list.addNode(20);
+		list.addNode(30);
+		list.addNode(90);
+		list.addNode(80);
+		list.addNode(70);
+		list.addNode(50);
+		list.InOrder();
+		list.postOrder();
+		list.preOrder();
+	</script>
+</html>

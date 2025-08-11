@@ -1,0 +1,46 @@
+<html>
+	<script>
+		function medianofThree(arr,start,end){
+			
+			let mid=Math.floor((start+end)/2)
+			
+			if((arr[start]-arr[end])*(arr[mid]-arr[start])>=0){
+					return start
+			}
+			else if((arr[end]-arr[mid])*(arr[start]-arr[end])>=0){
+					return end
+			}
+			else{
+				return mid
+			}
+			
+			
+			
+		}
+		 function quicksort(arr,start,end){
+			if(start>=end) return;
+			
+			 let mid = medianofThree(arr, start, end);
+      let temp = arr[mid];
+      arr[mid] = arr[end];
+      arr[end] = temp;
+			
+			let i=start;
+			let j=start
+			while(i<end){
+				if(arr[i]<arr[end]){
+					[arr[i],arr[j]]=[arr[j],arr[i]];
+					j++;					
+				}
+				i++;				
+			}
+			[arr[j],arr[end]]=[arr[end],arr[j]];
+			quicksort(arr, start, j - 1)
+			quicksort(arr, j + 1, end)
+		
+		}
+		const arr=[2,55,1,9,80,77,30];
+		quicksort(arr,0,arr.length-1)
+		console.log("qucik=",arr);
+	</script>
+</html>

@@ -1,0 +1,46 @@
+<html>
+	<script>
+		function mergesort(arr,start,end){
+		if(start>=end){
+			return ;
+		}
+		let mid=Math.floor((start+end)/2)
+			mergesort(arr,start,mid)
+			mergesort(arr,mid+1,end)
+		
+		
+			let temp=[];
+			let split=Math.floor((start+end)/2);
+			let pt1=start,pt2=split+1;
+			while(pt1<=split && pt2<=end){
+				if(arr[pt1]<arr[pt2]){
+					temp.push(arr[pt1])
+					pt1++;
+				}
+				else{
+					temp.push(arr[pt2]);
+					pt2++;
+				}
+			}
+			if(pt1<=split){
+			while(pt1<=split){
+					temp.push(arr[pt1])
+					pt1++
+				}
+			}
+			if(pt2<=end){
+			while(pt2<=end){
+					temp.push(arr[pt2])
+					pt2++
+				}
+			}
+			for (let i = 0; i < temp.length; i++) {
+				arr[start + i] = temp[i];
+			}
+		}
+		
+		const arr=[88,23,75,11,5,1,99,101,90];
+		mergesort(arr,0,arr.length-1);
+		console.log(arr)
+	</script>
+</html>
