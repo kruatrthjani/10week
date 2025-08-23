@@ -1,0 +1,44 @@
+<script>
+function dfstraverse(graph, start) {
+    const visited = new Set();
+    const result = [];
+
+    function dfs(node) {
+        const stack = [node];
+        while (stack.length > 0) {
+            let current = stack.pop();
+            if (!visited.has(current)) {
+                visited.add(current);
+                result.push(current);
+                for (let neighbor of graph[current]) {
+                    if (!visited.has(neighbor)) {
+                        stack.push(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    
+    dfs(start);
+
+    
+    for (const node in graph) {
+        if (!visited.has(node)) {
+            dfs(node);
+        }
+    }
+
+    console.log("result=", result);
+    return result;
+}
+
+const graph = {
+    A: ['B'],
+    B: ['A'],
+    C: ['D'],
+    D: ['C']
+};
+
+dfstraverse(graph, 'A');
+</script>

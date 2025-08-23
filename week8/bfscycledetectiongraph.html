@@ -1,0 +1,49 @@
+<html>
+	<script>
+		console.log("detect cycle");
+	function cycledetect(graph, start) {
+  const parent = {};
+  const visited = new Set();
+  const pq = [];
+
+  pq.push(start);
+  parent[start] = null;
+
+  while (pq.length > 0) {
+    const current = pq.shift();
+    visited.add(current);
+
+    for (const neighbor of graph[current]) {
+      if (!visited.has(neighbor)) {
+        parent[neighbor] = current;
+        pq.push(neighbor);
+      } else if (parent[current] !== neighbor) {
+        // This is a real cycle
+        console.log("cycle found");
+        return true;
+      }
+    }
+  }
+
+  console.log("no cycle found");
+  return false;
+}
+	
+		
+//const graph = {
+  //  A: ['B', 'C'],
+  //  B: ['A', 'C', 'D'],
+  //  C: ['A', 'B', 'D', 'E'],
+  //  D: ['B', 'C', 'E', 'F'],
+    //E: ['C', 'D', 'F'],
+  //  F: ['D', 'E']
+//};
+const graph={
+	A:['B'],
+	B:['C'],
+	C:['A'],
+}
+cycledetect(graph,'A');
+	</script>
+	
+</html>
