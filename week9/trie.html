@@ -1,0 +1,87 @@
+<html>
+<head>
+  <title>Trie Suggestions</title>
+</head>
+<body>
+<script>
+class TrieNode {
+  constructor() {
+    this.children = {};
+    this.isEnd = false;
+  }
+}
+
+class Trie {
+  constructor() {  // fixed typo (you had "construtor")
+    this.root = new TrieNode();
+  }
+
+  insert(word) {
+    let current = this.root;
+    for (let char of word) {
+      if (!current.children[char]) {
+        current.children[char] = new TrieNode();
+      }
+      current = current.children[char];
+    }
+    current.isEnd = true;
+  }
+
+  search(word) {
+    let current = this.root;
+    for (let char of word) {
+      if (!current.children[char]) {
+        return false;
+      }
+      current = current.children[char];
+    }
+    return current.isEnd;
+  }
+
+  // Get node at end of prefix
+  _findNode(prefix) {
+    let current = this.root;
+    for (let char of prefix) {
+      if (!current.children[char]) {
+        return null;
+      }
+      current = current.children[char];
+    }
+    return current;
+  }
+
+  // Collect words recursively from a given node
+  _collectSuggestions(node, prefix, results) {
+    if (node.isEnd) {
+      results.push(prefix);
+    }
+    for (let char in node.children) {
+      this._collectSuggestions(node.children[char], prefix + char, results);
+    }
+  }
+
+  // Suggest words for a given prefix
+  suggestions(prefix) {
+    let current = this._findNode(prefix);
+    let results = [];
+    if (!current) return results; // no prefix found
+    this._collectSuggestions(current, prefix, results);
+    return results;
+  }
+}
+
+// Example usage
+const trie = new Trie();
+trie.insert("cat");
+trie.insert("car");
+trie.insert("cart");
+trie.insert("dog");
+trie.insert("door");
+trie.insert("doll");
+
+console.log(trie.suggestions("ca")); // ["cat", "car", "cart"]
+console.log(trie.suggestions("do")); // ["dog", "door", "doll"]
+console.log(trie.suggestions("caz")); // [] (no match)
+</script>
+</body>
+</html>
