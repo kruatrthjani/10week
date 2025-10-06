@@ -1,0 +1,79 @@
+<html>
+  <body>
+    <script>
+      class UnionFind {
+        constructor() {
+          this.parent = new Map();
+          this.rank = new Map();
+        }
+
+        makeSet(x) {
+          if (!this.parent.has(x)) {
+            this.parent.set(x, x);
+            this.rank.set(x, 0);
+          }
+        }
+
+        find(x) {
+          this.makeSet(x);
+          if (this.parent.get(x) !== x) {
+            this.parent.set(x, this.find(this.parent.get(x)));
+          }
+          return this.parent.get(x);
+        }
+
+        union(x, y) {
+          this.makeSet(x);
+          this.makeSet(y);
+
+          let rootX = this.find(x);
+          let rootY = this.find(y);
+
+          if (rootX === rootY) return false; // already connected → cycle
+
+          let rankX = this.rank.get(rootX);
+          let rankY = this.rank.get(rootY);
+
+          if (rankX < rankY) {
+            this.parent.set(rootX, rootY);
+          } else if (rankX > rankY) {
+            this.parent.set(rootY, rootX);
+          } else {
+            this.parent.set(rootY, rootX);
+            this.rank.set(rootX, rankX + 1);
+          }
+          return true;
+        }
+      }
+
+      // cycle detection
+      function hasCycle(edges) {
+        const uf = new UnionFind();
+        for (const [u, v] of edges) {
+          if (!uf.union(u, v)) return true;
+        }
+        return false;
+      }
+
+      // ----------------
+      // TEST CASES
+      // ----------------
+
+      // Graph 1: A-B, B-C, C-A (forms a cycle)
+      let edges1 = [["A", "B"], ["B", "C"], ["C", "A"]];
+      console.log("Graph 1 has cycle?", hasCycle(edges1)); // true
+
+      // Graph 2: A-B, B-C, C-D (no cycle)
+      let edges2 = [["A", "B"], ["B", "C"], ["C", "D"]];
+      console.log("Graph 2 has cycle?", hasCycle(edges2)); // false
+
+      // Graph 3: numeric nodes (1-2, 2-3, 3-4, 4-1)
+      let edges3 = [[1, 2], [2, 3], [3, 4], [4, 1]];
+      console.log("Graph 3 has cycle?", hasCycle(edges3)); // true
+
+      // Graph 4: mixed alphanumeric nodes
+      let edges4 = [["x1", "y2"], ["y2", "z3"], ["a1", "b2"]];
+      console.log("Graph 4 has cycle?", hasCycle(edges4)); // false
+    </script>
+  </body>
+</html>
